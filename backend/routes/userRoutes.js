@@ -5,7 +5,7 @@ const UserDetails = require('../models/user.model');
 
 router.post("/",async (req,res)=>{
 const UserData = req.body;
-if(!UserData.name||!UserData.emailAddress){
+if(!UserData.name||!UserData.emailAddress||!UserData.accountType){
     return res.status(400).json({msg :"please enter all the required fields", success:"false"});
 
 }

@@ -7,6 +7,8 @@ const userDetailsSchema = new mongoose.Schema({
   
   password: { type: String ,  required: true  },
   
+  accountType:{ type: String ,  required: true}
+  
 }, { timestamps: true });
 
 module.exports = mongoose.model('UserDetails', userDetailsSchema);

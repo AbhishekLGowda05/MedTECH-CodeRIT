@@ -1,9 +1,12 @@
 const mongoose = require('mongoose');
 
 const queriesSchema = new mongoose.Schema({
-  queryId: { type: mongoose.Schema.Types.ObjectId, required: true },
-  userId: { type: mongoose.Schema.Types.ObjectId, required: true },
+  queryId: { type: mongoose.Schema.Types.ObjectId},
+  emailAddress: { type:String , required: true },
   queryText: { type: String, required: true },
+  queryResponse:{ type: String},
+  responseBy:{type:String},
+  answered:{type:Boolean, default:false}
   
 }, { timestamps: true });
 
