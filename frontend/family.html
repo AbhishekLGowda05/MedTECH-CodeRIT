@@ -6,8 +6,14 @@
   <title>MedTech Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script defer src="family.js"></script>
 </head>
-<body class="bg-gradient-to-br from-blue-500 via-indigo-500 to-green-500 p-6 min-h-screen text-black-700">
+<body class="bg-gradient-to-br from-blue-500 via-indigo-500 to-green-500 p-6 min-h-screen text-black-700 light">
+
+  <!-- Toggle Theme Button -->
+  <div class="text-right mb-4">
+    <button id="themeSwitcher" class="bg-gray-800 text-white px-4 py-2 rounded-lg shadow-md hover:bg-gray-600 transition">Switch to Dark Mode</button>
+  </div>
 
   <!-- Family Profile Section -->
   <div class="bg-gradient-to-br from-white via-gray-100 to-white p-6 rounded-2xl shadow-2xl mb-10">
@@ -161,4 +167,3 @@
 
 </body>
 </html>
-

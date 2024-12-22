@@ -37,14 +37,10 @@
         <select id="role" name="role" class="border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
           <option value="">Select a Role</option>
           <option value="User">User</option>
-          <option value="doctor">Professional</option>
+          <option value="Professional">doctor</option>
         </select>
       </div>
-      <div class="flex flex-col">
-        <label for="profile_picture" class="font-medium mb-1">Upload Profile Picture</label>
-        <input type="file" id="profile_picture" name="profile_picture" class="border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" >
-      </div>
-      <button type="submit"  class="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition duration-300"> Sign Up</button>
+      <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition duration-300">Sign Up</button>
     </form>
 
     <!-- Login Form -->
@@ -56,6 +52,14 @@
       <div class="flex flex-col">
         <label for="loginPassword" class="font-medium mb-1">Password</label>
         <input type="password" id="loginPassword" name="password" placeholder="****" class="border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+      </div>
+      <div class="flex flex-col">
+        <label for="loginRole" class="font-medium mb-1">Role</label>
+        <select id="loginRole" name="role" class="border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+          <option value="">Select a Role</option>
+          <option value="User">User</option>
+          <option value="Professional">Professional</option>
+        </select>
       </div>
       <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition duration-300">Login</button>
     </form>
@@ -77,17 +81,31 @@
     // Handle Signup Submission
     function handleSignup(event) {
       event.preventDefault(); // Prevent default form submission
-      // You can add a server call or data validation here
-      alert("Signup Successful!");
-      window.location.href = "newhome.html"; // Redirect to the home page
+      const role = document.getElementById("role").value;
+      if (role === "User") {
+        alert("Signup Successful as User!");
+        window.location.href = "user.html"; // Redirect to user.html
+      } else if (role === "Professional") {
+        alert("Signup Successful as Professional!");
+        window.location.href = "doctor.html"; // Redirect to doctor.html
+      } else {
+        alert("Please select a valid role.");
+      }
     }
 
     // Handle Login Submission
     function handleLogin(event) {
       event.preventDefault(); // Prevent default form submission
-      // Add server call or login validation here
-      alert("Login Successful!");
-      window.location.href = "dashboard.html"; // Redirect to dashboard page
+      const role = document.getElementById("loginRole").value;
+      if (role === "User") {
+        alert("Login Successful as User!");
+        window.location.href = "user.html"; // Redirect to user.html
+      } else if (role === "Professional") {
+        alert("Login Successful as Professional!");
+        window.location.href = "doctor.html"; // Redirect to doctor.html
+      } else {
+        alert("Please select a valid role.");
+      }
     }
   </script>
 

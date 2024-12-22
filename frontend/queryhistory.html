@@ -5,23 +5,42 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MedTech Dashboard - POST QUERY</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="queryhistory.js"></script>
   <style>
-    .reply-section {
-      display: none;
-    }
     .highlight {
       background-color: #fef08a;
       font-weight: bold;
       padding: 0 0.2rem;
       border-radius: 0.25rem;
     }
+    body.light {
+      background: linear-gradient(to right, #a7f3d0, #bfdbfe, #c7d2fe);
+      color: #1f2937;
+    }
+    body.dark {
+      background: linear-gradient(to right, #1e293b, #374151, #4b5563);
+      color: #f9fafb;
+    }
+    .dark .title {
+      color: #93c5fd; /* Light blue for dark mode */
+    }
+    .light .title {
+      color: #1f2937; /* Gray for light mode */
+    }
   </style>
 </head>
-<body class="bg-gradient-to-r from-green-300 via-blue-300 to-blue-200 p-8 min-h-screen text-gray-800">
+<body class="light">
+
+  <!-- Toggle Theme Button -->
+  <div class="text-right mb-4">
+    <button id="themeSwitcher" class="bg-gray-800 text-white px-4 py-2 rounded-lg shadow-md hover:bg-gray-600 transition">
+      Switch to Dark Mode
+    </button>
+  </div>
 
   <!-- Query Submission Section -->
-  <div class="bg-gradient-to-tr from-white to-gray-100 p-8 rounded-2xl shadow-xl mb-12 max-w-4xl mx-auto">
-    <h2 class="text-4xl font-bold text-gray-700 mb-8 text-center">POST QUERY</h2>
+  <div class="bg-white p-8 rounded-2xl shadow-xl mb-12 max-w-4xl mx-auto">
+    <h2 class="text-4xl font-bold text-gray-700 mb-8 text-center title">POST QUERY</h2>
     
     <!-- Ask a Question Form -->
     <div class="mb-8">
@@ -32,7 +51,7 @@
   </div>
 
   <!-- Previous Queries and Answers Section -->
-  <div class="bg-gradient-to-tr from-white to-gray-100 p-8 rounded-2xl shadow-xl max-w-4xl mx-auto">
+  <div class="bg-white p-8 rounded-2xl shadow-xl max-w-4xl mx-auto">
     <h3 class="text-3xl font-semibold text-blue-600 mb-8">Previous Queries and Answers</h3>
 
     <!-- Keyword Search Bar -->
@@ -57,42 +76,42 @@
     const queries = [
       { id: 1, patientQuery: 'What is the best way to lose weight safely?', doctorReply: 'Try a balanced diet with regular exercise.' },
       { id: 2, patientQuery: 'How can I reduce my blood sugar level naturally?', doctorReply: 'Increase your fiber intake and exercise regularly.' },
-      { id: 3, patientQuery: 'What can I do to improve my sleep quality?', doctorReply: 'Consider establishing a consistent sleep routine and reducing screen time before bed.' }
+      { id: 3, patientQuery: 'What can I do to improve my sleep quality?', doctorReply: 'Establish a consistent sleep routine and reduce screen time before bed.' }
     ];
 
-    // Function to render the list of queries
+    // Function to render the list of queries with keyword highlighting
     function renderQueries(filteredQueries = queries, highlight = '') {
       const queryList = document.getElementById('queryList');
       queryList.innerHTML = ''; // Clear current list
 
       filteredQueries.forEach(query => {
         const queryItem = document.createElement('li');
-        queryItem.classList.add('bg-white', 'p-6', 'rounded-xl', 'shadow-lg', 'border', 'border-gray-200', 'hover:shadow-2xl', 'transition-transform', 'transform', 'hover:scale-105', 'duration-300');
+        queryItem.classList.add('bg-white', 'dark:bg-gray-700', 'p-6', 'rounded-xl', 'shadow-lg', 'border', 'border-gray-200', 'dark:border-gray-600', 'hover:shadow-2xl', 'transition-transform', 'transform', 'hover:scale-105', 'duration-300');
 
-        // Patient query with keyword highlighting
+        // Highlight the keyword in patient query and doctor reply
         const patientQuery = document.createElement('div');
-        patientQuery.innerHTML = `<span class="font-semibold text-lg text-blue-600">Patient:</span> ${highlightText(query.patientQuery, highlight)}`;
+        patientQuery.innerHTML = `<span class="font-semibold text-lg text-blue-600 dark:text-blue-300">Patient:</span> ${highlightText(query.patientQuery, highlight)}`;
 
-        // Doctor's reply section with keyword highlighting
-        const replySection = document.createElement('div');
-        replySection.classList.add('mt-4');
-        replySection.innerHTML = `<span class="font-semibold text-lg text-blue-600">Doctor:</span> ${highlightText(query.doctorReply, highlight)}`;
+        const doctorReply = document.createElement('div');
+        doctorReply.classList.add('mt-4');
+        doctorReply.innerHTML = `<span class="font-semibold text-lg text-blue-600 dark:text-blue-300">Doctor:</span> ${highlightText(query.doctorReply, highlight)}`;
 
-        // Append to the query item
+        // Append query and reply to the list item
         queryItem.appendChild(patientQuery);
-        queryItem.appendChild(replySection);
+        queryItem.appendChild(doctorReply);
 
-        // Add query item to the list
+        // Add to the query list
         queryList.appendChild(queryItem);
       });
     }
 
     // Function to filter queries based on search input
     function filterQueries() {
-      const searchTerm = document.getElementById('searchBar').value.toLowerCase();
-      const filteredQueries = queries.filter(query => 
-        query.patientQuery.toLowerCase().includes(searchTerm) ||
-        query.doctorReply.toLowerCase().includes(searchTerm)
+      const searchTerm = document.getElementById('searchBar').value.trim().toLowerCase();
+      const filteredQueries = queries.filter(
+        query =>
+          query.patientQuery.toLowerCase().includes(searchTerm) ||
+          query.doctorReply.toLowerCase().includes(searchTerm)
       );
       renderQueries(filteredQueries, searchTerm);
     }
@@ -106,22 +125,23 @@
 
     // Function to handle submitting a query
     function submitQuery() {
-      const patientQuery = document.getElementById('patientQuery').value;
+      const patientQuery = document.getElementById('patientQuery').value.trim();
       if (patientQuery) {
         const newQuery = {
           id: queries.length + 1,
-          patientQuery: patientQuery,
+          patientQuery,
           doctorReply: 'No reply yet.'
         };
         queries.push(newQuery);
         renderQueries(); // Re-render the list
         document.getElementById('patientQuery').value = ''; // Clear the input field
+      } else {
+        alert('Please enter a valid query.');
       }
     }
 
     // Initial rendering of the query list
     renderQueries();
   </script>
-
 </body>
 </html>

@@ -19,17 +19,65 @@
   </header>
 
   <!-- Main Content -->
-  <main class="flex-grow flex items-center justify-center">
-    <div class="text-center">
+  <main class="flex-grow">
+    <!-- Welcome Section -->
+    <div class="text-center py-12">
       <h2 class="text-4xl font-bold text-white mb-4">Welcome to Your Dashboard!</h2>
       <p class="text-xl text-white mb-8">This is your personalized homepage. Explore and manage your account.</p>
       <div class="flex space-x-4 justify-center">
-        <a href="#profile" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition">View Profile</a>
+        <button onclick="viewProfile()" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition">
+          View Profile
+        </button>
         <a href="#settings" class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition">Settings</a>
         <a href="#help" class="bg-yellow-500 text-white px-6 py-3 rounded-lg hover:bg-yellow-600 transition">Help</a>
       </div>
     </div>
+
+    <!-- Fitness Goals Section -->
+    <section id="fitness" class="bg-white p-8 rounded-2xl shadow-lg mx-6 my-8 max-w-4xl mx-auto">
+      <h3 class="text-3xl font-bold text-blue-700 mb-6 text-center">Daily Fitness Goals</h3>
+      <ul class="space-y-4 text-gray-700 text-lg">
+        <li>🏋️‍♂️ 30 minutes of strength training</li>
+        <li>🏃‍♀️ 5km run or 45 minutes of cardio</li>
+        <li>🧘‍♀️ 10 minutes of mindfulness meditation</li>
+        <li>💧 Drink at least 3 liters of water</li>
+        <li>🛏️ Sleep for 8 hours</li>
+      </ul>
+    </section>
+
+    <!-- Diet Plan Section -->
+    <section id="diet" class="bg-white p-8 rounded-2xl shadow-lg mx-6 my-8 max-w-4xl mx-auto">
+      <h3 class="text-3xl font-bold text-blue-700 mb-6 text-center">Today's Diet Plan</h3>
+      <div class="text-gray-700 text-lg space-y-4">
+        <p>🍳 <strong>Breakfast:</strong> Scrambled eggs, whole grain toast, and a glass of orange juice</p>
+        <p>🥗 <strong>Lunch:</strong> Grilled chicken salad with quinoa and mixed vegetables</p>
+        <p>🍎 <strong>Snack:</strong> A handful of nuts and a piece of fruit</p>
+        <p>🍲 <strong>Dinner:</strong> Baked salmon with steamed broccoli and brown rice</p>
+        <p>🫖 <strong>Evening:</strong> Herbal tea before bed</p>
+      </div>
+    </section>
   </main>
+
+  <!-- Profile Modal -->
+  <div id="profileModal" class="fixed inset-0 bg-black bg-opacity-70 hidden flex items-center justify-center">
+    <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-lg w-full">
+      <h3 class="text-2xl font-bold text-blue-700 mb-6 text-center">Profile</h3>
+      <div class="space-y-4">
+        <a href="family.html" class="block bg-green-500 text-white text-center py-3 rounded-lg hover:bg-green-600 transition">
+          Family
+        </a>
+        <a href="medicalhistory.html" class="block bg-blue-500 text-white text-center py-3 rounded-lg hover:bg-blue-600 transition">
+          Medical History
+        </a>
+        <a href="postqueries.html" class="block bg-yellow-500 text-white text-center py-3 rounded-lg hover:bg-yellow-600 transition">
+          Post Queries
+        </a>
+      </div>
+      <button onclick="closeProfileModal()" class="mt-6 bg-gray-800 text-white px-4 py-2 rounded-lg shadow-md hover:bg-gray-600 transition w-full">
+        Close
+      </button>
+    </div>
+  </div>
 
   <!-- Footer -->
   <footer class="bg-white py-4 text-center shadow-t-md">
@@ -41,6 +89,16 @@
     function logout() {
       alert("Logged out successfully!");
       window.location.href = "!Doctype.html"; // Redirect to the login page
+    }
+
+    // Show profile modal
+    function viewProfile() {
+      document.getElementById('profileModal').classList.remove('hidden');
+    }
+
+    // Close profile modal
+    function closeProfileModal() {
+      document.getElementById('profileModal').classList.add('hidden');
     }
   </script>
 
