@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const familyMembersSchema = new mongoose.Schema({
-  memberId: { type: mongoose.Schema.Types.ObjectId, required: true },
+ emailAddress:{type:String, required:true},
   name: { type: String, required: true },
   relationship: { type: String, required: true },
 

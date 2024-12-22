@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const medicalHistorySchema = new mongoose.Schema({
-  
-  diagnosis: { type: String, required: true },
-  dateOfDiagnosis: { type: Date, required: true },
+  emailAddress:{type:String},
+  diagnosis: { type: String },
+  dateOfDiagnosis: { type: Date},
   treatingPhysician: { type: String },
   medicationPrescribed: { type: String },
   
