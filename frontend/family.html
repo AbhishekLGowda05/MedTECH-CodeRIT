@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+body<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -62,108 +62,197 @@
       </button>
     </div>
   </div>
+<script>
+  const familyMembers = {};
 
-  <script>
-    const familyMembers = {};
-
-    // Function to add or update a family member profile
-    function addMember() {
+  // Function to add or update a family member profile
+  async function addMember() {
       const name = document.getElementById('memberName').value;
       const file = document.getElementById('memberImage').files[0];
-
-      if (name && file) {
-        const reader = new FileReader();
-        reader.onloadend = function () {
-          const memberId = `member-${Date.now()}`;
-          familyMembers[memberId] = {
-            name: name,
-            medicalHistory: `Medical history of ${name} will be displayed here.`
-          };
-
-          const memberDiv = document.createElement('div');
-          memberDiv.classList.add(
-            'bg-gradient-to-br', 
-            'from-white', 
-            'via-gray-100', 
-            'to-white', 
-            'p-6', 
-            'rounded-lg', 
-            'shadow-lg', 
-            'hover:shadow-xl', 
-            'transition-shadow', 
-            'duration-300', 
-            'text-center', 
-            'transform', 
-            'hover:scale-105'
-          );
-          memberDiv.setAttribute('data-id', memberId);
-          memberDiv.addEventListener('click', (event) => {
-            if (event.target.tagName !== 'BUTTON') showMedicalHistory(event);
+  
+      if (!name || !file) {
+          alert('Please provide a name and a profile picture.');
+          return;
+      }
+  
+      // Send POST request to add a family member
+      const emailAddress = prompt('Enter the family member\'s email address:');
+      if (!emailAddress) {
+          alert('Email address is required.');
+          return;
+      }
+  
+      const formData = new FormData();
+      formData.append('name', name);
+      formData.append('emailAddress', emailAddress);
+  
+      try {
+          const response = await fetch('http://127.0.0.1:5000/api/family/member', {
+              method: 'POST',
+              body: formData,
           });
-
-          const profilePicture = document.createElement('div');
-          profilePicture.classList.add(
-            'w-24', 
-            'h-24', 
-            'bg-gray-300', 
-            'rounded-full', 
-            'mb-4', 
-            'mx-auto', 
-            'shadow-md'
-          );
-          profilePicture.style.backgroundImage = `url('${reader.result}')`;
-          profilePicture.style.backgroundSize = 'cover';
-          profilePicture.style.backgroundPosition = 'center';
-          
-          const nameElement = document.createElement('span');
-          nameElement.textContent = name;
-          nameElement.classList.add('block', 'text-lg', 'font-semibold', 'text-green-600', 'mb-4');
-
-          const deleteButton = document.createElement('button');
-          deleteButton.textContent = 'Delete';
-          deleteButton.classList.add(
-            'bg-red-500', 
-            'text-black', 
-            'px-4', 
-            'py-2', 
-            'rounded-lg', 
-            'hover:bg-red-600', 
-            'transition-transform', 
-            'transform', 
-            'hover:scale-105'
-          );
-          deleteButton.addEventListener('click', () => deleteMember(memberId, memberDiv));
-
-          memberDiv.appendChild(profilePicture);
-          memberDiv.appendChild(nameElement);
-          memberDiv.appendChild(deleteButton);
-          document.getElementById('familyGrid').appendChild(memberDiv);
-
+  
+          const result = await response.json();
+  
+          if (!result.success) {
+              alert(result.msg || 'Failed to add family member. Please try again.');
+              return;
+          }
+  
+          // Add the family member to the UI
+          const reader = new FileReader();
+          reader.onloadend = function () {
+              const memberId = `member-${Date.now()}`;
+              familyMembers[memberId] = {
+                  name: name,
+                  emailAddress: emailAddress,
+                  medicalHistory: `Medical history of ${name} will be fetched here.`,
+                  profilePicture: reader.result,
+              };
+  
+              renderFamilyMember(memberId, name, reader.result);
+          };
+          reader.readAsDataURL(file);
+  
           document.getElementById('memberName').value = '';
           document.getElementById('memberImage').value = '';
-        };
-        reader.readAsDataURL(file);
-      } else {
-        alert('Please provide a name and a profile picture.');
+      } catch (error) {
+          console.error('Error adding family member:', error.message);
+          alert('Failed to add family member. Please try again.');
       }
-    }
-
-    function deleteMember(memberId, memberDiv) {
+  }
+  
+  // Render a family member profile card
+  function renderFamilyMember(memberId, name, profilePicture) {
+      const memberDiv = document.createElement('div');
+      memberDiv.classList.add(
+          'bg-gradient-to-br',
+          'from-white',
+          'via-gray-100',
+          'to-white',
+          'p-6',
+          'rounded-lg',
+          'shadow-lg',
+          'hover:shadow-xl',
+          'transition-shadow',
+          'duration-300',
+          'text-center',
+          'transform',
+          'hover:scale-105'
+      );
+      memberDiv.setAttribute('data-id', memberId);
+      memberDiv.addEventListener('click', (event) => {
+          if (event.target.tagName !== 'BUTTON') showMedicalHistory(event);
+      });
+  
+      const profilePictureDiv = document.createElement('div');
+      profilePictureDiv.classList.add(
+          'w-24',
+          'h-24',
+          'bg-gray-300',
+          'rounded-full',
+          'mb-4',
+          'mx-auto',
+          'shadow-md'
+      );
+      profilePictureDiv.style.backgroundImage = `url('${profilePicture}')`;
+      profilePictureDiv.style.backgroundSize = 'cover';
+      profilePictureDiv.style.backgroundPosition = 'center';
+  
+      const nameElement = document.createElement('span');
+      nameElement.textContent = name;
+      nameElement.classList.add('block', 'text-lg', 'font-semibold', 'text-green-600', 'mb-4');
+  
+      const deleteButton = document.createElement('button');
+      deleteButton.textContent = 'Delete';
+      deleteButton.classList.add(
+          'bg-red-500',
+          'text-black',
+          'px-4',
+          'py-2',
+          'rounded-lg',
+          'hover:bg-red-600',
+          'transition-transform',
+          'transform',
+          'hover:scale-105'
+      );
+      deleteButton.addEventListener('click', () => deleteMember(memberId, memberDiv));
+  
+      memberDiv.appendChild(profilePictureDiv);
+      memberDiv.appendChild(nameElement);
+      memberDiv.appendChild(deleteButton);
+      document.getElementById('familyGrid').appendChild(memberDiv);
+  }
+  
+  // Fetch and display all family members
+  async function fetchFamilyMembers() {
+      try {
+          const response = await fetch('http://127.0.0.1:5000/api/family/all');
+          const result = await response.json();
+  
+          if (!result.success) {
+              alert('Failed to fetch family members. Please try again.');
+              return;
+          }
+  
+          result.data.forEach((member) => {
+              const memberId = `member-${Date.now()}`;
+              familyMembers[memberId] = {
+                  name: member.name,
+                  emailAddress: member.emailAddress,
+                  medicalHistory: `Medical history of ${member.name} will be fetched here.`,
+                  profilePicture: '', // No picture is stored in the backend
+              };
+  
+              renderFamilyMember(memberId, member.name, '');
+          });
+      } catch (error) {
+          console.error('Error fetching family members:', error.message);
+          alert('Failed to fetch family members. Please try again.');
+      }
+  }
+  
+  // Fetch and display medical history when a card is clicked
+  async function showMedicalHistory(event) {
+      const memberId = event.currentTarget.getAttribute('data-id');
+      const emailAddress = familyMembers[memberId]?.emailAddress;
+  
+      if (!emailAddress) {
+          alert('Failed to fetch medical history. No email address found.');
+          return;
+      }
+  
+      try {
+          const response = await fetch(`http://127.0.0.1:5000/api/family/${emailAddress}`);
+          const result = await response.json();
+  
+          if (!result.success) {
+              alert('Failed to fetch medical history. Please try again.');
+              return;
+          }
+  
+          const medicalHistory = JSON.stringify(result.data, null, 2); // Prettify JSON data
+          document.getElementById('medicalHistoryContent').textContent = medicalHistory;
+          document.getElementById('medicalHistoryModal').classList.remove('hidden');
+      } catch (error) {
+          console.error('Error fetching medical history:', error.message);
+          alert('Failed to fetch medical history. Please try again.');
+      }
+  }
+  
+  // Delete a family member
+  function deleteMember(memberId, memberDiv) {
       delete familyMembers[memberId];
       memberDiv.remove();
-    }
-
-    function showMedicalHistory(event) {
-      const memberId = event.currentTarget.getAttribute('data-id');
-      const medicalHistory = familyMembers[memberId]?.medicalHistory || 'No medical history available.';
-      document.getElementById('medicalHistoryContent').textContent = medicalHistory;
-      document.getElementById('medicalHistoryModal').classList.remove('hidden');
-    }
-
-    function closeModal() {
+  }
+  
+  // Close the medical history modal
+  function closeModal() {
       document.getElementById('medicalHistoryModal').classList.add('hidden');
-    }
+  }
+  
+  // Initial fetch of family members when the page loads
+  fetchFamilyMembers();
   </script>
-
-</body>
+      </body>
 </html>

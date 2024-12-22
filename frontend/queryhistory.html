@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MedTech Dashboard - POST QUERY</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script defer src="queryhistory.js"></script>
   <style>
     .highlight {
       background-color: #fef08a;
@@ -22,10 +21,10 @@
       color: #f9fafb;
     }
     .dark .title {
-      color: #93c5fd; /* Light blue for dark mode */
+      color: #93c5fd;
     }
     .light .title {
-      color: #1f2937; /* Gray for light mode */
+      color: #1f2937;
     }
   </style>
 </head>
@@ -72,76 +71,113 @@
   </div>
 
   <script>
-    // Sample existing queries
-    const queries = [
-      { id: 1, patientQuery: 'What is the best way to lose weight safely?', doctorReply: 'Try a balanced diet with regular exercise.' },
-      { id: 2, patientQuery: 'How can I reduce my blood sugar level naturally?', doctorReply: 'Increase your fiber intake and exercise regularly.' },
-      { id: 3, patientQuery: 'What can I do to improve my sleep quality?', doctorReply: 'Establish a consistent sleep routine and reduce screen time before bed.' }
-    ];
-
-    // Function to render the list of queries with keyword highlighting
-    function renderQueries(filteredQueries = queries, highlight = '') {
-      const queryList = document.getElementById('queryList');
-      queryList.innerHTML = ''; // Clear current list
-
-      filteredQueries.forEach(query => {
-        const queryItem = document.createElement('li');
-        queryItem.classList.add('bg-white', 'dark:bg-gray-700', 'p-6', 'rounded-xl', 'shadow-lg', 'border', 'border-gray-200', 'dark:border-gray-600', 'hover:shadow-2xl', 'transition-transform', 'transform', 'hover:scale-105', 'duration-300');
-
-        // Highlight the keyword in patient query and doctor reply
-        const patientQuery = document.createElement('div');
-        patientQuery.innerHTML = `<span class="font-semibold text-lg text-blue-600 dark:text-blue-300">Patient:</span> ${highlightText(query.patientQuery, highlight)}`;
-
-        const doctorReply = document.createElement('div');
-        doctorReply.classList.add('mt-4');
-        doctorReply.innerHTML = `<span class="font-semibold text-lg text-blue-600 dark:text-blue-300">Doctor:</span> ${highlightText(query.doctorReply, highlight)}`;
-
-        // Append query and reply to the list item
+    // Fetch the logged-in user's email from localStorage or a dummy default
+    const loggedInEmail = localStorage.getItem("loggedInEmail") || "dummy@example.com";
+  
+    // Function to submit a query
+    async function submitQuery() {
+      const patientQuery = document.getElementById("patientQuery").value.trim();
+      if (!patientQuery) {
+        alert("Please enter a valid query.");
+        return;
+      }
+  
+      try {
+        const response = await fetch("http://127.0.0.1:5000/api/queries/query", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            emailAddress: loggedInEmail,
+            queryText: patientQuery,
+          }),
+        });
+  
+        const result = await response.json();
+        if (response.ok) {
+          alert("Query submitted successfully!");
+          fetchQueries(); // Refresh the queries list
+          document.getElementById("patientQuery").value = ""; // Clear input
+        } else {
+          alert(result.error || "Failed to submit the query. Please try again.");
+        }
+      } catch (error) {
+        console.error("Error submitting query:", error.message);
+        alert("An error occurred. Please try again.");
+      }
+    }
+  
+    // Function to fetch all queries
+    async function fetchQueries() {
+      try {
+        const response = await fetch("http://127.0.0.1:5000/api/queries/all");
+        const result = await response.json();
+  
+        if (response.ok) {
+          renderQueries(result.allQueries);
+        } else {
+          alert(result.msg || "Failed to fetch queries.");
+        }
+      } catch (error) {
+        console.error("Error fetching queries:", error.message);
+        alert("An error occurred while fetching queries.");
+      }
+    }
+  
+    // Function to render the queries
+    function renderQueries(queries = []) {
+      const queryList = document.getElementById("queryList");
+      queryList.innerHTML = ""; // Clear current list
+  
+      queries.forEach((query) => {
+        const queryItem = document.createElement("li");
+        queryItem.classList.add(
+          "bg-white",
+          "dark:bg-gray-700",
+          "p-6",
+          "rounded-xl",
+          "shadow-lg",
+          "border",
+          "border-gray-200",
+          "dark:border-gray-600",
+          "hover:shadow-2xl",
+          "transition-transform",
+          "transform",
+          "hover:scale-105",
+          "duration-300",
+          "text-black",
+          "dark:text-white"
+        );
+  
+        const patientQuery = document.createElement("div");
+        patientQuery.innerHTML = `<span class="font-semibold text-lg text-blue-600 dark:text-blue-300">Patient:</span> ${query.queryText}`;
+  
+        const doctorReply = document.createElement("div");
+        doctorReply.classList.add("mt-4");
+        doctorReply.innerHTML = `<span class="font-semibold text-lg text-blue-600 dark:text-blue-300">Doctor:</span> ${
+          query.queryResponse || "No reply yet."
+        }`;
+  
         queryItem.appendChild(patientQuery);
         queryItem.appendChild(doctorReply);
-
-        // Add to the query list
         queryList.appendChild(queryItem);
       });
     }
-
-    // Function to filter queries based on search input
-    function filterQueries() {
-      const searchTerm = document.getElementById('searchBar').value.trim().toLowerCase();
-      const filteredQueries = queries.filter(
-        query =>
-          query.patientQuery.toLowerCase().includes(searchTerm) ||
-          query.doctorReply.toLowerCase().includes(searchTerm)
-      );
-      renderQueries(filteredQueries, searchTerm);
-    }
-
-    // Function to highlight keywords in text
-    function highlightText(text, keyword) {
-      if (!keyword) return text; // If no keyword, return original text
-      const regex = new RegExp(`(${keyword})`, 'gi'); // Case-insensitive match
-      return text.replace(regex, '<span class="highlight">$1</span>');
-    }
-
-    // Function to handle submitting a query
-    function submitQuery() {
-      const patientQuery = document.getElementById('patientQuery').value.trim();
-      if (patientQuery) {
-        const newQuery = {
-          id: queries.length + 1,
-          patientQuery,
-          doctorReply: 'No reply yet.'
-        };
-        queries.push(newQuery);
-        renderQueries(); // Re-render the list
-        document.getElementById('patientQuery').value = ''; // Clear the input field
-      } else {
-        alert('Please enter a valid query.');
-      }
-    }
-
-    // Initial rendering of the query list
-    renderQueries();
+  
+    // Fetch queries on page load
+    fetchQueries();
+  
+    // Dark mode toggle
+    const themeSwitcher = document.getElementById("themeSwitcher");
+    themeSwitcher.addEventListener("click", () => {
+      const body = document.body;
+      body.classList.toggle("dark");
+      body.classList.toggle("light");
+      themeSwitcher.textContent =
+        body.classList.contains("dark") ? "Switch to Light Mode" : "Switch to Dark Mode";
+    });
   </script>
+  
 </body>
 </html>

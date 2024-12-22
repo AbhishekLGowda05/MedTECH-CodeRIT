@@ -37,7 +37,7 @@ return res.status(200).json({data:result,success:true});
 
 })
 
-router.get('/:emailAddress', async ()=>{
+router.get('/:emailAddress', async (req,res)=>{
 
     try {
         const result = await family_members.findOne({emailAddress:req.params.emailAddress});

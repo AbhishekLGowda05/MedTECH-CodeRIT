@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const familyMembersSchema = new mongoose.Schema({
  emailAddress:{type:String, required:true},
   name: { type: String, required: true },
-  relationship: { type: String, required: true },
+  relationship: { type: String },
 
   allergiesOrSpecialNeeds: { type: String },
 }, { timestamps: true });
