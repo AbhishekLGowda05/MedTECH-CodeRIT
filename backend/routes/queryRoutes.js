@@ -3,7 +3,6 @@ const router = express.Router();
 const queries = require('../models/queries.model');
 const UserDetails = require('../models/user.model');
 
-const query_history = require('../models/query_history.model');
 
 router.post('/query', async (req,res)=>{
    try {

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const queriesSchema = new mongoose.Schema({
   queryId: { type: mongoose.Schema.Types.ObjectId},
-  emailAddress: { type:String , required: true },
+  emailAddress: { type:String },
   queryText: { type: String, required: true },
   queryResponse:{ type: String},
   responseBy:{type:String},
