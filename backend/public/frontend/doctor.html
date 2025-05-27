@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MedTech Dashboard - Doctor's View</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="doctypescript.js"></script>
+</head>
+<body class="light">
+
+  <!-- Navigation Bar -->
+  <header class="bg-gradient-to-r from-blue-500 to-blue-700 text-white p-4 shadow-md">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-3xl font-semibold">MedTech Dashboard</h1>
+      <nav>
+        <ul class="flex space-x-6">
+          <li><a href="!Doctype.html" class="hover:underline transition-all duration-300">Home</a></li>
+          <li><a href="docprofile.html" class="hover:underline transition-all duration-300">Profile</a></li>
+          <li><a href="family.html" class="hover:underline transition-all duration-300">Family</a></li>
+          <li><a href="answer.html" class="hover:underline transition-all duration-300">Answer query</a></li>
+          <li><a href="patienthistory.html" class="hover:underline transition-all duration-300">Patient History</a></li>
+        </ul>
+      </nav>
+      <div class="flex items-center space-x-4">
+        <button id="themeSwitcher" class="bg-gray-800 text-white px-4 py-2 rounded-lg shadow-md hover:bg-gray-600 transition">
+          Switch to Dark Mode
+        </button>
+        <button onclick="logout()" class="bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition">
+          Logout
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Medical News Section -->
+  <section class="bg-blue-100 py-16">
+    <div class="container mx-auto text-center">
+      <h2 class="text-3xl font-bold text-blue-700 mb-8">Recent Medical News</h2>
+      <ul class="list-disc list-inside text-lg text-gray-700 space-y-4">
+        <li>Breakthrough in cancer immunotherapy shows promising results.</li>
+        <li>New AI tool detects early signs of Alzheimer's with 90% accuracy.</li>
+        <li>WHO reports a significant drop in global maternal mortality rates.</li>
+        <li>Study links gut microbiome to improved mental health outcomes.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Quick References for Doctors -->
+  <section class="bg-white py-16">
+    <div class="container mx-auto text-center">
+      <h2 class="text-3xl font-bold text-blue-700 mb-8">Quick Reference</h2>
+      <ul class="list-disc list-inside text-lg text-gray-700 space-y-4">
+        <li><strong>Normal Vital Signs:</strong> BP: 120/80 mmHg, HR: 60-100 bpm, Temp: 98.6°F.</li>
+        <li><strong>Emergency Drugs:</strong> Epinephrine (anaphylaxis), Naloxone (opioid overdose), Aspirin (chest pain).</li>
+        <li><strong>Pediatric Dosage Formula:</strong> Clark's rule: (Weight in lbs / 150) x adult dose.</li>
+        <li><strong>COVID-19 Guidelines:</strong> Masking, vaccination, and antiviral therapies.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Tips for Better Patient Care -->
+  <section class="bg-blue-100 py-16">
+    <div class="container mx-auto text-center">
+      <h2 class="text-3xl font-bold text-blue-700 mb-8">Tips for Better Patient Care</h2>
+      <ul class="list-disc list-inside text-lg text-gray-700 space-y-4">
+        <li>Always listen actively to your patients; empathy builds trust.</li>
+        <li>Keep patient records organized for seamless follow-ups.</li>
+        <li>Stay updated with the latest medical research and protocols.</li>
+        <li>Encourage patients to adopt preventive healthcare measures.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Medical Resources Section -->
+  <section class="bg-white py-16">
+    <div class="container mx-auto text-center">
+      <h2 class="text-3xl font-bold text-blue-700 mb-8">Useful Medical Resources</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <a href="https://www.ncbi.nlm.nih.gov/" target="_blank" class="block bg-gray-100 p-6 rounded-lg shadow-md hover:shadow-lg transition">
+          <h3 class="text-xl font-semibold text-blue-700">PubMed</h3>
+          <p class="text-gray-600">Access millions of biomedical articles and journals.</p>
+        </a>
+        <a href="https://www.cdc.gov/" target="_blank" class="block bg-gray-100 p-6 rounded-lg shadow-md hover:shadow-lg transition">
+          <h3 class="text-xl font-semibold text-blue-700">CDC</h3>
+          <p class="text-gray-600">Latest public health data and guidelines.</p>
+        </a>
+        <a href="https://www.who.int/" target="_blank" class="block bg-gray-100 p-6 rounded-lg shadow-md hover:shadow-lg transition">
+          <h3 class="text-xl font-semibold text-blue-700">WHO</h3>
+          <p class="text-gray-600">Global health updates and initiatives.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gradient-to-r from-blue-500 to-blue-700 text-white py-6">
+    <div class="container mx-auto text-center">
+      <p>&copy; 2024 MedTech Dashboard. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Logout function
+    function logout() {
+      alert("You have been logged out.");
+      window.location.href = "!Doctype.html"; // Redirect to the login page
+    }
+  </script>
+
+</body>
+</html>

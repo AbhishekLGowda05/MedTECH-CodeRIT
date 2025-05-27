@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MedTech Home</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="doctypescript.js"></script>
+</head>
+<body class="light">
+
+  <!-- Navigation Bar -->
+  <header class="bg-gradient-to-r from-blue-500 to-blue-700 text-white p-4 shadow-md">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-3xl font-semibold">MedTech Dashboard</h1>
+      <nav>
+        <ul class="flex space-x-6">
+          <li><a href="!Doctype.html" class="hover:underline transition-all duration-300">Home</a></li>
+          <li><a href="profile.html" class="hover:underline transition-all duration-300">Profile</a></li>
+          <li><a href="family.html" class="hover:underline transition-all duration-300">Family</a></li>
+          <li><a href="queryhistory.html" class="hover:underline transition-all duration-300">Post query</a></li>
+          <li><a href="medicalhistory.html" class="hover:underline transition-all duration-300">Medical History</a></li>
+        </ul>
+      </nav>
+      <div class="flex items-center space-x-4">
+        <button id="themeSwitcher" class="bg-gray-800 text-white px-4 py-2 rounded-lg shadow-md hover:bg-gray-600 transition">
+          Switch to Dark Mode
+        </button>
+        <button onclick="logout()" class="bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition">
+          Logout
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Medical Facts Section -->
+  <section class="bg-blue-100 py-16">
+    <div class="container mx-auto text-center">
+      <h2 class="text-3xl font-bold text-blue-700 mb-8">Interesting Medical Facts</h2>
+      <ul class="list-disc list-inside text-lg text-gray-700 space-y-4">
+        <li>The human brain has about 86 billion neurons.</li>
+        <li>Your heart beats around 100,000 times a day.</li>
+        <li>Regular exercise can reduce the risk of chronic diseases by up to 50%.</li>
+        <li>A healthy diet can add up to 10 years to your life expectancy.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Fitness Goals Section -->
+  <section class="bg-white py-16">
+    <div class="container mx-auto text-center">
+      <h2 class="text-3xl font-bold text-blue-700 mb-8">Daily Fitness Goals</h2>
+      <ul class="list-disc list-inside text-lg text-gray-700 space-y-4">
+        <li>🏋️‍♂️ 30 minutes of strength training.</li>
+        <li>🏃‍♀️ 5km run or 45 minutes of cardio.</li>
+        <li>🧘‍♀️ 10 minutes of mindfulness meditation.</li>
+        <li>💧 Drink at least 3 liters of water.</li>
+        <li>🛏️ Sleep for 8 hours.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Diet Plan Section -->
+  <section class="bg-blue-100 py-16">
+    <div class="container mx-auto text-center">
+      <h2 class="text-3xl font-bold text-blue-700 mb-8">Today's Diet Plan</h2>
+      <ul class="list-disc list-inside text-lg text-gray-700 space-y-4">
+        <li>🍳 <strong>Breakfast:</strong> Scrambled eggs, whole grain toast, and a glass of orange juice.</li>
+        <li>🥗 <strong>Lunch:</strong> Grilled chicken salad with quinoa and mixed vegetables.</li>
+        <li>🍎 <strong>Snack:</strong> A handful of nuts and a piece of fruit.</li>
+        <li>🍲 <strong>Dinner:</strong> Baked salmon with steamed broccoli and brown rice.</li>
+        <li>🫖 <strong>Evening:</strong> Herbal tea before bed.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Fitness Images Section -->
+  <section class="bg-white py-16">
+    <div class="container mx-auto text-center">
+      <h2 class="text-3xl font-bold text-blue-700 mb-8">Fitness Inspiration</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <img src="https://via.placeholder.com/300x200" alt="Fitness Image 1" class="rounded-lg shadow-md hover:shadow-xl transition">
+        <img src="https://via.placeholder.com/300x200" alt="Fitness Image 2" class="rounded-lg shadow-md hover:shadow-xl transition">
+        <img src="https://via.placeholder.com/300x200" alt="Fitness Image 3" class="rounded-lg shadow-md hover:shadow-xl transition">
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gradient-to-r from-blue-500 to-blue-700 text-white py-6">
+    <div class="container mx-auto text-center">
+      <p>&copy; 2024 MedTech Dashboard. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Logout function
+    function logout() {
+      alert("You have been logged out.");
+      window.location.href = "!Doctype.html"; // Redirect to the login page
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MedTech Dashboard - POST QUERY</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="queryhistory.js"></script>
+  <style>
+    body.light {
+      background: linear-gradient(to right, #a7f3d0, #bfdbfe, #c7d2fe);
+      color: #1f2937;
+    }
+    body.dark {
+      background: linear-gradient(to right, #1e293b, #374151, #4b5563);
+      color: #f9fafb;
+    }
+    .dark .title {
+      color: #93c5fd; /* Light blue for dark mode */
+    }
+    .light .title {
+      color: #1f2937; /* Gray for light mode */
+    }
+  </style>
+</head>
+<body class="light">
+
+  <!-- Toggle Theme Button -->
+  <div class="text-right mb-4">
+    <button id="themeSwitcher" class="bg-gray-800 text-white px-4 py-2 rounded-lg shadow-md hover:bg-gray-600 transition">
+      Switch to Dark Mode
+    </button>
+  </div>
+
+
+  <!-- Queries Given to the Doctor Section -->
+  <div class="bg-white p-8 rounded-2xl shadow-xl max-w-4xl mx-auto">
+    <h3 class="text-3xl font-semibold text-blue-600 mb-8">Doctor's Query Dashboard</h3>
+    
+    <!-- Queries List -->
+    <ul class="space-y-8" id="queryList">
+      <!-- Queries and response forms will be dynamically populated here -->
+    </ul>
+  </div>
+
+  <script>
+    // Sample existing queries
+    const queries = [
+      { id: 1, patientQuery: 'What is the best way to lose weight safely?', doctorReply: '' },
+      { id: 2, patientQuery: 'How can I reduce my blood sugar level naturally?', doctorReply: '' },
+      { id: 3, patientQuery: 'What can I do to improve my sleep quality?', doctorReply: '' }
+    ];
+
+    // Function to render the list of queries for the doctor to reply to
+    function renderQueries() {
+      const queryList = document.getElementById('queryList');
+      queryList.innerHTML = ''; // Clear current list
+
+      queries.forEach(query => {
+        const queryItem = document.createElement('li');
+        queryItem.classList.add('bg-white', 'dark:bg-gray-700', 'p-6', 'rounded-xl', 'shadow-lg', 'border', 'border-gray-200', 'dark:border-gray-600', 'hover:shadow-2xl', 'transition-transform', 'transform', 'hover:scale-105', 'duration-300');
+
+        // Display patient query
+        const patientQuery = document.createElement('div');
+        patientQuery.innerHTML = `<span class="font-semibold text-lg text-blue-600 dark:text-blue-300">Patient:</span> ${query.patientQuery}`;
+        queryItem.appendChild(patientQuery);
+
+        // Reply form for the doctor
+        const replyForm = document.createElement('div');
+        replyForm.classList.add('mt-4');
+        replyForm.innerHTML = `
+          <textarea class="w-full p-4 border border-blue-300 rounded-lg text-lg focus:outline-none focus:ring-4 focus:ring-blue-200 placeholder-gray-500" placeholder="Write your reply here..." rows="3" id="reply-${query.id}">${query.doctorReply}</textarea>
+          <button onclick="submitReply(${query.id})" class="mt-2 bg-gradient-to-r from-blue-500 to-blue-400 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-600 transition-transform transform hover:scale-105 font-semibold">Submit Reply</button>
+        `;
+        queryItem.appendChild(replyForm);
+
+        // Add query item to the list
+        queryList.appendChild(queryItem);
+      });
+    }
+
+    // Function to submit a reply to a query
+    function submitReply(queryId) {
+      const replyTextarea = document.getElementById(`reply-${queryId}`);
+      const replyText = replyTextarea.value.trim();
+
+      if (replyText) {
+        const query = queries.find(q => q.id === queryId);
+        query.doctorReply = replyText;
+        alert('Reply submitted successfully!');
+        renderQueries(); // Re-render the list to update the UI
+      } else {
+        alert('Please write a reply before submitting.');
+      }
+    }
+
+    // Function to handle submitting a query
+    function submitQuery() {
+      const patientQuery = document.getElementById('patientQuery').value.trim();
+      if (patientQuery) {
+        const newQuery = {
+          id: queries.length + 1,
+          patientQuery,
+          doctorReply: ''
+        };
+        queries.push(newQuery);
+        renderQueries(); // Re-render the list
+        document.getElementById('patientQuery').value = ''; // Clear the input field
+      } else {
+        alert('Please enter a valid query.');
+      }
+    }
+
+    // Initial rendering of the query list
+    renderQueries();
+  </script>
+</body>
+</html>

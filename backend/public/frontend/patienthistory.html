@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient History</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-r from-green-200 via-blue-200 to-purple-200 min-h-screen">
+
+  <!-- Navigation Bar -->
+  <header class="bg-gradient-to-r from-blue-500 to-blue-700 text-white p-4 shadow-md">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-3xl font-semibold">Doctor's Dashboard</h1>
+      <nav>
+        <ul class="flex space-x-6">
+          <li><a href="doctor.html" class="hover:underline">Home</a></li>
+          
+          <li><a href="patient_history.html" class="hover:underline">Patient History</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Patient History Section -->
+  <section class="py-16">
+    <div class="container mx-auto">
+      <h2 class="text-4xl font-bold text-center text-blue-700 mb-8">Patient History</h2>
+
+      <!-- Patient History Table -->
+      <div class="overflow-x-auto">
+        <table class="min-w-full bg-white rounded-xl shadow-lg">
+          <thead>
+            <tr class="bg-blue-500 text-white text-left">
+              <th class="py-3 px-6">Patient Name</th>
+              <th class="py-3 px-6">Query</th>
+              <th class="py-3 px-6">Doctor's Solution</th>
+              <th class="py-3 px-6">Interaction Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Example Patient Data -->
+            <tr class="border-b hover:bg-gray-100">
+              <td class="py-4 px-6">John Doe</td>
+              <td class="py-4 px-6">What is the best way to manage diabetes?</td>
+              <td class="py-4 px-6">Maintain a low-carb diet and exercise regularly.</td>
+              <td class="py-4 px-6">2024-12-20</td>
+            </tr>
+            <tr class="border-b hover:bg-gray-100">
+              <td class="py-4 px-6">Jane Smith</td>
+              <td class="py-4 px-6">How to improve sleep quality?</td>
+              <td class="py-4 px-6">Avoid screens before bed and establish a consistent sleep routine.</td>
+              <td class="py-4 px-6">2024-12-21</td>
+            </tr>
+            <tr class="border-b hover:bg-gray-100">
+              <td class="py-4 px-6">Emily Davis</td>
+              <td class="py-4 px-6">Tips to lose weight effectively?</td>
+              <td class="py-4 px-6">Focus on a balanced diet and include strength training in your routine.</td>
+              <td class="py-4 px-6">2024-12-22</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gradient-to-r from-blue-500 to-blue-700 text-white py-6">
+    <div class="container mx-auto text-center">
+      <p>&copy; 2024 MedTech Dashboard. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

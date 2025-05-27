@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MedTech Dashboard - POST QUERY</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .highlight {
+      background-color: #fef08a;
+      font-weight: bold;
+      padding: 0 0.2rem;
+      border-radius: 0.25rem;
+    }
+    body.light {
+      background: linear-gradient(to right, #a7f3d0, #bfdbfe, #c7d2fe);
+      color: #1f2937;
+    }
+    body.dark {
+      background: linear-gradient(to right, #1e293b, #374151, #4b5563);
+      color: #f9fafb;
+    }
+    .dark .title {
+      color: #93c5fd;
+    }
+    .light .title {
+      color: #1f2937;
+    }
+  </style>
+</head>
+<body class="light">
+
+  <!-- Toggle Theme Button -->
+  <div class="text-right mb-4">
+    <button id="themeSwitcher" class="bg-gray-800 text-white px-4 py-2 rounded-lg shadow-md hover:bg-gray-600 transition">
+      Switch to Dark Mode
+    </button>
+  </div>
+
+  <!-- Query Submission Section -->
+  <div class="bg-white p-8 rounded-2xl shadow-xl mb-12 max-w-4xl mx-auto">
+    <h2 class="text-4xl font-bold text-gray-700 mb-8 text-center title">POST QUERY</h2>
+    
+    <!-- Ask a Question Form -->
+    <div class="mb-8">
+      <h3 class="text-2xl font-semibold text-blue-600 mb-4">Ask a Question</h3>
+      <textarea id="patientQuery" class="w-full p-4 border border-blue-300 rounded-lg text-lg focus:outline-none focus:ring-4 focus:ring-blue-200 placeholder-gray-500" placeholder="Write your query..." rows="4"></textarea>
+      <button onclick="submitQuery()" class="mt-4 w-full bg-gradient-to-r from-blue-500 to-blue-400 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-600 transition-transform transform hover:scale-105 font-semibold">Submit Query</button>
+    </div>
+  </div>
+
+  <!-- Previous Queries and Answers Section -->
+  <div class="bg-white p-8 rounded-2xl shadow-xl max-w-4xl mx-auto">
+    <h3 class="text-3xl font-semibold text-blue-600 mb-8">Previous Queries and Answers</h3>
+
+    <!-- Keyword Search Bar -->
+    <div class="mb-8">
+      <input 
+        type="text" 
+        id="searchBar" 
+        placeholder="Search queries by keyword..." 
+        class="w-full p-4 border border-blue-300 rounded-lg text-lg focus:outline-none focus:ring-4 focus:ring-blue-200 placeholder-gray-500" 
+        oninput="filterQueries()" 
+      />
+    </div>
+    
+    <!-- Previous Queries List -->
+    <ul class="space-y-8" id="queryList">
+      <!-- Queries and answers will be dynamically populated here -->
+    </ul>
+  </div>
+
+  <script>
+    // Fetch the logged-in user's email from localStorage or a dummy default
+    const loggedInEmail = localStorage.getItem("loggedInEmail") || "dummy@example.com";
+  
+    // Function to submit a query
+    async function submitQuery() {
+      const patientQuery = document.getElementById("patientQuery").value.trim();
+      if (!patientQuery) {
+        alert("Please enter a valid query.");
+        return;
+      }
+  
+      try {
+        const response = await fetch("http://127.0.0.1:5000/api/queries/query", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            emailAddress: loggedInEmail,
+            queryText: patientQuery,
+          }),
+        });
+  
+        const result = await response.json();
+        if (response.ok) {
+          alert("Query submitted successfully!");
+          fetchQueries(); // Refresh the queries list
+          document.getElementById("patientQuery").value = ""; // Clear input
+        } else {
+          alert(result.error || "Failed to submit the query. Please try again.");
+        }
+      } catch (error) {
+        console.error("Error submitting query:", error.message);
+        alert("An error occurred. Please try again.");
+      }
+    }
+  
+    // Function to fetch all queries
+    async function fetchQueries() {
+      try {
+        const response = await fetch("http://127.0.0.1:5000/api/queries/all");
+        const result = await response.json();
+  
+        if (response.ok) {
+          renderQueries(result.allQueries);
+        } else {
+          alert(result.msg || "Failed to fetch queries.");
+        }
+      } catch (error) {
+        console.error("Error fetching queries:", error.message);
+        alert("An error occurred while fetching queries.");
+      }
+    }
+  
+    // Function to render the queries
+    function renderQueries(queries = []) {
+      const queryList = document.getElementById("queryList");
+      queryList.innerHTML = ""; // Clear current list
+  
+      queries.forEach((query) => {
+        const queryItem = document.createElement("li");
+        queryItem.classList.add(
+          "bg-white",
+          "dark:bg-gray-700",
+          "p-6",
+          "rounded-xl",
+          "shadow-lg",
+          "border",
+          "border-gray-200",
+          "dark:border-gray-600",
+          "hover:shadow-2xl",
+          "transition-transform",
+          "transform",
+          "hover:scale-105",
+          "duration-300",
+          "text-black",
+          "dark:text-white"
+        );
+  
+        const patientQuery = document.createElement("div");
+        patientQuery.innerHTML = `<span class="font-semibold text-lg text-blue-600 dark:text-blue-300">Patient:</span> ${query.queryText}`;
+  
+        const doctorReply = document.createElement("div");
+        doctorReply.classList.add("mt-4");
+        doctorReply.innerHTML = `<span class="font-semibold text-lg text-blue-600 dark:text-blue-300">Doctor:</span> ${
+          query.queryResponse || "No reply yet."
+        }`;
+  
+        queryItem.appendChild(patientQuery);
+        queryItem.appendChild(doctorReply);
+        queryList.appendChild(queryItem);
+      });
+    }
+  
+    // Fetch queries on page load
+    fetchQueries();
+  
+    // Dark mode toggle
+    const themeSwitcher = document.getElementById("themeSwitcher");
+    themeSwitcher.addEventListener("click", () => {
+      const body = document.body;
+      body.classList.toggle("dark");
+      body.classList.toggle("light");
+      themeSwitcher.textContent =
+        body.classList.contains("dark") ? "Switch to Light Mode" : "Switch to Dark Mode";
+    });
+  </script>
+  
+</body>
+</html>

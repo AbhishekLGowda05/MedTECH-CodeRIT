@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trendy User Input Form</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-indigo-500 via-blue-500 to-green-500 min-h-screen flex items-center justify-center">
+
+  <!-- Form Container -->
+  <div class="bg-white/90 backdrop-blur-lg p-10 rounded-3xl shadow-2xl max-w-md w-full">
+    <h2 class="text-3xl font-extrabold text-center text-gray-800 mb-6">Patient Information</h2>
+    <p class="text-center text-gray-500 mb-8">Please fill out the details below</p>
+    <form id="patientForm" class="space-y-6" onsubmit="handleFormSubmit(event)">
+
+      <!-- Email Address Input -->
+      <div>
+        <label for="emailAddress" class="block text-sm font-medium text-gray-700">Email Address</label>
+        <input type="email" id="emailAddress" name="emailAddress" class="mt-2 w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-4 focus:ring-purple-300 focus:outline-none transition" placeholder="Enter your email" required>
+      </div>
+
+      <!-- Diagnosis Input -->
+      <div>
+        <label for="diagnosis" class="block text-sm font-medium text-gray-700">Diagnosis</label>
+        <input type="text" id="diagnosis" name="diagnosis" class="mt-2 w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-4 focus:ring-purple-300 focus:outline-none transition" placeholder="Enter diagnosis" required>
+      </div>
+
+      <!-- Date of Diagnosis Input -->
+      <div>
+        <label for="dateOfDiagnosis" class="block text-sm font-medium text-gray-700">Date of Diagnosis</label>
+        <input type="date" id="dateOfDiagnosis" name="dateOfDiagnosis" class="mt-2 w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-4 focus:ring-purple-300 focus:outline-none transition" required>
+      </div>
+
+      <!-- Treating Physician Input -->
+      <div>
+        <label for="treatingPhysician" class="block text-sm font-medium text-gray-700">Treating Physician</label>
+        <input type="text" id="treatingPhysician" name="treatingPhysician" class="mt-2 w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-4 focus:ring-purple-300 focus:outline-none transition" placeholder="Enter physician's name" required>
+      </div>
+
+      <!-- Medication Prescribed Input -->
+      <div>
+        <label for="medicationPrescribed" class="block text-sm font-medium text-gray-700">Medication Prescribed</label>
+        <input type="text" id="medicationPrescribed" name="medicationPrescribed" class="mt-2 w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-4 focus:ring-purple-300 focus:outline-none transition" placeholder="Enter medication details" required>
+      </div>
+
+      <!-- Allergies Input -->
+      <div>
+        <label for="allergies" class="block text-sm font-medium text-gray-700">Allergies</label>
+        <input type="text" id="allergies" name="allergies" class="mt-2 w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-4 focus:ring-purple-300 focus:outline-none transition" placeholder="Enter any allergies" required>
+      </div>
+
+      <!-- Chronic Conditions Input -->
+      <div>
+        <label for="chronicConditions" class="block text-sm font-medium text-gray-700">Chronic Conditions</label>
+        <input type="text" id="chronicConditions" name="chronicConditions" class="mt-2 w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-4 focus:ring-purple-300 focus:outline-none transition" placeholder="Enter chronic conditions" required>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="text-center">
+        <button type="submit" class="w-full bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-bold px-6 py-3 rounded-lg shadow-lg hover:from-indigo-500 hover:to-purple-500 focus:outline-none focus:ring-4 focus:ring-purple-300 transition-transform transform hover:scale-105">
+          Submit
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    function handleFormSubmit(event) {
+      event.preventDefault(); // Prevent default form submission
+      alert('Thank you for submitting the patient information!');
+      window.location.href = '!Doctype.html'; // Redirect to the home page
+    }
+  </script>
+
+</body>
+</html>
